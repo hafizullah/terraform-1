@@ -25,7 +25,7 @@ The module supports overriding the instance type and count.
 
 ```
 ami_version       = "v1.0"       # defaults to *
-ami_user          = "jkordish"   # defaults to build which is Jenkins
+ami_user          = "deepak.prasad"  
 instance_type     = "t2.medium"
 count             = "2"
 target            = "production" # defines ingress ssh access
