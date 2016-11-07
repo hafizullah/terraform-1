@@ -1,38 +1,24 @@
-# Terraform Module - Base - bastion
+# Terraform Module - Base - VPC
 
 # usage
 
 Enable by putting the following in your main.tf
 
 ```
-module "bastion" {
-  source = "git::https://v-usmi-e-github1.eng.fireeye.com/ops-infrastructure/terraform_module_base_bastion.git"
-  vpc_id               = "${module.vpc.id}"
-  subnet_id            = "${module.vpc.external_subnets}"
-  key_name             = "${module.vpc.key_name}"
-  cust_id              = "${module.vpc.cust_id}"
-  product              = "${module.vpc.product}"
-  designation          = "${module.vpc.designation}"
-  environment          = "${module.vpc.environment}"
-  mgmt                 = "${module.vpc.mgmt}"
-  cidr                 = "${module.vpc.cidr}"
-}
+module "vpc" {
+     source = "github.mandiant.com/dprasad/ipa_module_mgmt_vpc"
+     name = "ipa-vpc"
+     aws_region = "us-west-2"
+     key_name = "freeipa-key"
+     vpc_cidr_block = "172.16.248.0/23"
+     private_subnet1_cidr_block = "172.16.248.0/28"
+     private_subnet2_cidr_block = "172.16.248.16/28"
+     public_subnet1_cidr_block = "172.16.249.0/28"
+     public_subnet2_cidr_block = "172.16.249.16/28"
+     availability_zones = ["us-west-2a", "us-west-2b"]
+     cc_jumpbox_ami = "ami-746aba14"
+     instance_type = "t2.micro"
+     enviornment = "opswest"
+     project = "ipa"
+ }
 ```
-
-# optional
-
-The module supports overriding the instance type and count.
-
-```
-ami_version       = "v1.0"       # defaults to *
-ami_user          = "deepak.prasad"  
-instance_type     = "t2.medium"
-count             = "2"
-target            = "production" # defines ingress ssh access
-security_groups = "${module.consul.security_group}"
-root_block_device = "30"
-```
-
-notes
-
-The security_groups specifies additional security groups as its own bastion security will always be added by default and reference self.
