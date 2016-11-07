@@ -2,7 +2,7 @@
 
 provider "aws" {
   shared_credentials_file = "${var.aws_creds_path/.aws/credentials}"
-  profile = "${var.profile}"
+  profile = "${var.aws_profile}"
   region = "${var.aws_region}"
 }
 
