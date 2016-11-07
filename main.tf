@@ -1,7 +1,7 @@
 # AWS access details
 
 provider "aws" {
-  shared_credentials_file = "~/.aws/credentials"
+  shared_credentials_file = "${var.aws_creds_path/.aws/credentials}"
   profile = "${var.profile}"
   region = "${var.aws_region}"
 }
