@@ -6,7 +6,7 @@ Enable by putting the following in your main.tf
 
 ```
 module "vpc" {
-     source = "github.mandiant.com/dprasad/ipa_module_mgmt_vpc"
+     source = "github.com/ddimri/terraform"
      name = "ipa-vpc"
      aws_region = "us-west-2"
      key_name = "freeipa-key"
@@ -20,5 +20,6 @@ module "vpc" {
      instance_type = "t2.micro"
      enviornment = "opswest"
      project = "ipa"
+     profile ="DeepakPrasad"
  }
 ```
