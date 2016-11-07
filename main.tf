@@ -368,4 +368,3 @@ resource "aws_elb" "opswest-ipa-elb" {
       Name = "${var.environment}-ipa-elb"
     }
 }
-API Training Shop Blog About
