@@ -11,14 +11,14 @@ resource "aws_vpc" "mgmt-us-west-2" {
   cidr_block = "${var.vpc_cidr_block}"
   enable_dns_hostnames = true
   tags {
-    Name = "${var.name}"
+    Name = "${var.vpc_name}"
   }
 }
 
 # Create Command Control Jump Box
 resource "aws_instance" "cc-jumpbox" {
     ami = "${var.cc_jumpbox_ami}"
-    availability_zone = ${element(var.availability_zones, 0)}"
+    availability_zone = "${element(var.availability_zones, 0)}"
     instance_type = "${var.instance_type}"
     key_name = "${var.key_name}"
     vpc_security_group_ids = ["${aws_security_group.opswest-mgmt-public-subnet-sg.id}"]
@@ -51,7 +51,7 @@ resource "aws_eip" "nat" {
 # Public Subnet1 in AZ1
 resource "aws_subnet" "us-west-2a-public-subnet" {
   vpc_id                  = "${aws_vpc.mgmt-us-west-2.id}"
-  availability_zone =  ${element(var.availability_zones, 0)}"
+  availability_zone =  "${element(var.availability_zones, 0)}"
   cidr_block              = "${var.public_subnet1_cidr_block}"
   map_public_ip_on_launch = true
   tags {
@@ -91,7 +91,7 @@ resource "aws_eip" "nat-gw2" {
 # Public Subnet in AZ2
 resource "aws_subnet" "us-west-2b-public-subnet" {
   vpc_id                  = "${aws_vpc.mgmt-us-west-2.id}"
-  availability_zone = ${element(var.availability_zones, 1)}"
+  availability_zone = "${element(var.availability_zones, 1)}"
   cidr_block              = "${public_subnet2_cidr_block}"
   map_public_ip_on_launch = true
   tags {
@@ -115,7 +115,7 @@ resource "aws_route_table" "us-west-2b-public-subnet" {
 # Private Subnet1 in AZ1
 resource "aws_subnet" "us-west-2a-private-subnet" {
   vpc_id                  = "${aws_vpc.mgmt-us-west-2.id}"
-  availability_zone = ${element(var.availability_zones, 0)}"
+  availability_zone = "${element(var.availability_zones, 0)}"
   cidr_block              = "${private_subnet1_cidr_block}"
   tags {
     Name = "${var.vpc_name}-us-west-2a-private-subnet"
@@ -144,7 +144,7 @@ resource "aws_route_table" "us-west-2a-private-subnet" {
 # Private Subnet2 in AZ2
 resource "aws_subnet" "us-west-2b-private-subnet" {
   vpc_id                  = "${aws_vpc.mgmt-us-west-2.id}"
-  availability_zone = ${element(var.availability_zones, 1)}"
+  availability_zone = "${element(var.availability_zones, 1)}"
   cidr_block              = "${private_subnet2_cidr_block}"
   tags {
     Name = "${var.vpc_name}-us-west-2b-private-subnet"
@@ -317,8 +317,8 @@ resource "aws_security_group_rule" "ssh_outbound_access_to_ipa" {
 }
 # Create instance
 resource "aws_instance" "ipa-master" {
-    ami = "${ipa_jumpbox_ami}"
-    availability_zone = ${element(var.availability_zones, 0)}"
+    ami = "${var.ipa_server_ami}"
+    availability_zone = "${element(var.availability_zones, 0)}"
     instance_type = "${var.instance_type}"
     key_name = "${var.key_name}"
     vpc_security_group_ids = ["${aws_security_group.opswest-ipa-sg.id}"]
@@ -332,8 +332,8 @@ resource "aws_instance" "ipa-master" {
 
 # Create instance
 resource "aws_instance" "ipa-replica" {
-    ami = "${ipa_jumpbox_ami}"
-    availability_zone = ${element(var.availability_zones, 1)}"
+    ami = "${var.ipa_server_ami}"
+    availability_zone = "${element(var.availability_zones, 1)}"
     instance_type = "${var.instance_type}"
     key_name = "${var.key_name}"
     vpc_security_group_ids = ["${aws_security_group.opswest-ipa-sg.id}"]
