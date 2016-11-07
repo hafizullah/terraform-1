@@ -16,7 +16,9 @@ variable "public_subnet1_cidr_block" {}
 
 variable "public_subnet2_cidr_block" {}
 
-variable "availability_zones" {}
+variable "availability_zones" {
+  default = ["us-west-2a", "us-west-2b"]
+  }
 
 variable "cc_jumpbox_ami" {}
 
