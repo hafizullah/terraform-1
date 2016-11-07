@@ -17,21 +17,21 @@ resource "aws_vpc" "mgmt-us-west-2" {
 
 # Create Command Control Jump Box
 resource "aws_instance" "cc-jumpbox" {
-    ami = "${var.cc_jumpbox_ami}"
-    availability_zone = "${element(var.availability_zones, 0)}"
-    instance_type = "${var.instance_type}"
-    key_name = "${var.key_name}"
-    vpc_security_group_ids = ["${aws_security_group.opswest-mgmt-public-subnet-sg.id}"]
-    subnet_id = "${aws_subnet.us-west-2a-public-subnet.id}"
-    associate_public_ip_address = true
-    source_dest_check = false
-    tags {
-        Name = "${var.environment}-cc-jumpbox"
-    }
+  ami = "${var.cc_jumpbox_ami}"
+  availability_zone = "${element(var.availability_zones, 0)}"
+  instance_type = "${var.instance_type}"
+  key_name = "${var.key_name}"
+  vpc_security_group_ids = ["${aws_security_group.opswest-mgmt-public-subnet-sg.id}"]
+  subnet_id = "${aws_subnet.us-west-2a-public-subnet.id}"
+  associate_public_ip_address = true
+  source_dest_check = false
+  tags {
+     Name = "${var.environment}-cc-jumpbox"
+  }
 }
 resource "aws_eip" "cc-jumpbox" {
-    instance = "${aws_instance.cc-jumpbox.id}"
-    vpc = true
+  instance = "${aws_instance.cc-jumpbox.id}"
+  vpc = true
 }
 # Create an internet gateway
 resource "aws_internet_gateway" "ipa-opswest-igw" {
@@ -42,11 +42,11 @@ resource "aws_internet_gateway" "ipa-opswest-igw" {
 }
 # Create NAT Gateways for public-subnet1 routing
 resource "aws_nat_gateway" "nat-gw" {
-   allocation_id = "${aws_eip.nat.id}"
-   subnet_id = "${aws_subnet.us-west-2a-public-subnet.id}"
+  allocation_id = "${aws_eip.nat.id}"
+  subnet_id = "${aws_subnet.us-west-2a-public-subnet.id}"
 }
 resource "aws_eip" "nat" {
-    vpc = true
+  vpc = true
 }
 # Public Subnet1 in AZ1
 resource "aws_subnet" "us-west-2a-public-subnet" {
@@ -80,12 +80,12 @@ resource "aws_route_table" "us-west-2a-public-subnet" {
 # Create NAT Gateways for public-subnet2 routing
 
 resource "aws_nat_gateway" "nat-gw2" {
-   allocation_id = "${aws_eip.nat-gw2.id}"
-   subnet_id = "${aws_subnet.us-west-2b-public-subnet.id}"
+  allocation_id = "${aws_eip.nat-gw2.id}"
+  subnet_id = "${aws_subnet.us-west-2b-public-subnet.id}"
 }
 
 resource "aws_eip" "nat-gw2" {
-    vpc = true
+  vpc = true
 }
 
 # Public Subnet in AZ2
@@ -178,84 +178,84 @@ resource "aws_security_group" "opswest-ipa-sg" {
   } 
 }
 resource "aws_security_group_rule" "SSH_access_from_CC_JumpBoxes" {
-    type = "ingress"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
+  type = "ingress"
+  from_port   = 22
+  to_port     = 22
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
 }
 resource "aws_security_group_rule" "HTTPS_access_from_ELB" {
-    type = "ingress"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-elb-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-elb-sg.id}"
+  type = "ingress"
+  from_port   = 443
+  to_port     = 443
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-elb-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-elb-sg.id}"
 }
 resource "aws_security_group_rule" "HTTPS_access_from_CC_JumpBoxes" {
-    type = "ingress"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
+  type = "ingress"
+  from_port   = 443
+  to_port     = 443
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
 }
 resource "aws_security_group_rule" "HTTP_access_from_port_80" {
-    type = "ingress"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  type = "ingress"
+  from_port   = 80
+  to_port     = 80
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
 }
 resource "aws_security_group_rule" "Port_88_inbound_access_from_self_sg" {
-    type = "ingress" 
-    from_port   = 88
-    to_port     = 88
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  type = "ingress" 
+  from_port   = 88
+  to_port     = 88
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
 }
 resource "aws_security_group_rule" "LDAP_access_from_self_sg" {
-    type = "ingress"
-    from_port   = 389
-    to_port     = 389
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  type = "ingress"
+  from_port   = 389
+  to_port     = 389
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
 }
 resource "aws_security_group_rule" "Allow_HTTPS_access_from_self_sg" {
-    type = "ingress"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  type = "ingress"
+  from_port   = 443
+  to_port     = 443
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
 }
 resource "aws_security_group_rule" "Allow_port_464_from_self_sg" {
-    type = "ingress"
-    from_port   = 464
-    to_port     = 464
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  type = "ingress"
+  from_port   = 464
+  to_port     = 464
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
 }
 resource "aws_security_group_rule" "Allow_port_636_from_self_sg" {
-    type = "ingress"
-    from_port   = 636
-    to_port     = 636
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  type = "ingress"
+  from_port   = 636
+  to_port     = 636
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
 }
 resource "aws_security_group_rule" "Allow_UDP_access_from_self_sg" {
-    type = "ingress"
-    from_port   = 123
-    to_port     = 123
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  type = "ingress"
+  from_port   = 123
+  to_port     = 123
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
 }
 # Create security group for elb
 resource "aws_security_group" "opswest-elb-sg" {
@@ -271,28 +271,28 @@ resource "aws_security_group" "opswest-elb-sg" {
   }
 }
 resource "aws_security_group_rule" "https_outbound_access_to_ipa" {
-    type = "egress"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  type = "egress"
+  from_port   = 443
+  to_port     = 443
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
 }
 resource "aws_security_group_rule" "icmp_outbound_access_to_ipa" {
-    type = "egress"
-    from_port   = "-1"
-    to_port     = "-1"
-    protocol    = "icmp"
-    security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  type = "egress"
+  from_port   = "-1"
+  to_port     = "-1"
+  protocol    = "icmp"
+  security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
 }
 resource "aws_security_group_rule" "ping_outbound_access_to_public_subnets" {
-    type = "egress"
-    from_port   = "-1"
-    to_port     = "-1"
-    protocol    = "icmp"
-    security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
+  type = "egress"
+  from_port   = "-1"
+  to_port     = "-1"
+  protocol    = "icmp"
+  security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
 }
 # Create security group for Public Subnet
 resource "aws_security_group" "opswest-mgmt-public-subnet-sg" {
@@ -308,63 +308,63 @@ resource "aws_security_group" "opswest-mgmt-public-subnet-sg" {
   }
 }
 resource "aws_security_group_rule" "ssh_outbound_access_to_ipa" {
-    type = "egress"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
-    source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  type = "egress"
+  from_port   = 22
+  to_port     = 22
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
+  source_security_group_id = "${aws_security_group.opswest-ipa-sg.id}"
 }
 # Create instance
 resource "aws_instance" "ipa-master" {
-    ami = "${var.ipa_server_ami}"
-    availability_zone = "${element(var.availability_zones, 0)}"
-    instance_type = "${var.instance_type}"
-    key_name = "${var.key_name}"
-    vpc_security_group_ids = ["${aws_security_group.opswest-ipa-sg.id}"]
-    subnet_id = "${aws_subnet.us-west-2a-private-subnet.id}"
-    associate_public_ip_address = false
+  ami = "${var.ipa_server_ami}"
+  availability_zone = "${element(var.availability_zones, 0)}"
+  instance_type = "${var.instance_type}"
+  key_name = "${var.key_name}"
+  vpc_security_group_ids = ["${aws_security_group.opswest-ipa-sg.id}"]
+  subnet_id = "${aws_subnet.us-west-2a-private-subnet.id}"
+  associate_public_ip_address = false
 
-    tags {
-       Name = "${var.project}-master"
-    }
+  tags {
+     Name = "${var.project}-master"
+  }
 }
 
 # Create instance
 resource "aws_instance" "ipa-replica" {
-    ami = "${var.ipa_server_ami}"
-    availability_zone = "${element(var.availability_zones, 1)}"
-    instance_type = "${var.instance_type}"
-    key_name = "${var.key_name}"
-    vpc_security_group_ids = ["${aws_security_group.opswest-ipa-sg.id}"]
-    subnet_id = "${aws_subnet.us-west-2b-private-subnet.id}"
-    associate_public_ip_address = false
-    tags {
-       Name = "${var.project}-replica"
-    }
+  ami = "${var.ipa_server_ami}"
+  availability_zone = "${element(var.availability_zones, 1)}"
+  instance_type = "${var.instance_type}"
+  key_name = "${var.key_name}"
+  vpc_security_group_ids = ["${aws_security_group.opswest-ipa-sg.id}"]
+  subnet_id = "${aws_subnet.us-west-2b-private-subnet.id}"
+  associate_public_ip_address = false
+  tags {
+     Name = "${var.project}-replica"
+  }
 }
 # Create ELB
 resource "aws_elb" "opswest-ipa-elb" {
-    name = "${var.environment}-ipa-elb"
-    subnets = ["${aws_subnet.us-west-2a-public-subnet.id}","${aws_subnet.us-west-2b-public-subnet.id}"]
-    security_groups = ["${aws_security_group.opswest-elb-sg.id}"]
+  name = "${var.environment}-ipa-elb"
+  subnets = ["${aws_subnet.us-west-2a-public-subnet.id}","${aws_subnet.us-west-2b-public-subnet.id}"]
+  security_groups = ["${aws_security_group.opswest-elb-sg.id}"]
    
-    listener {
-	     instance_port = 80
-             instance_protocol = "http"
-	     lb_port = 80
-	     lb_protocol = "http"
-    }
-    health_check {
-		healthy_threshold = 2
-		unhealthy_threshold = 2
-		timeout = 3
-		target = "HTTP:80/"
-		interval = 30
-    }
-    instances = ["${aws_instance.ipa-master.id}","${aws_instance.ipa-replica.id}"]
+  listener {
+	instance_port = 80
+        instance_protocol = "http"
+	lb_port = 80
+	lb_protocol = "http"
+  }
+  health_check {
+        healthy_threshold = 2
+	unhealthy_threshold = 2
+	timeout = 3
+	target = "HTTP:80/"
+	interval = 30
+  }
+  instances = ["${aws_instance.ipa-master.id}","${aws_instance.ipa-replica.id}"]
     
-    tags = {
-      Name = "${var.environment}-ipa-elb"
-    }
+  tags = {
+     Name = "${var.environment}-ipa-elb"
+  }
 }
