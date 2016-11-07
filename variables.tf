@@ -1,10 +1,10 @@
-variable "aws_creds_path" {
+variable "home_dir" {
  default = "/home/ec2-user"
-}
+ }
 
 variable "aws_profile" {
  default = "freeipa"
-}
+ }
 
 variable "project" {
   default = "ipa"
