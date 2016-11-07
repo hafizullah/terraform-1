@@ -92,7 +92,7 @@ resource "aws_eip" "nat-gw2" {
 resource "aws_subnet" "us-west-2b-public-subnet" {
   vpc_id                  = "${aws_vpc.mgmt-us-west-2.id}"
   availability_zone = "${element(var.availability_zones, 1)}"
-  cidr_block              = "${public_subnet2_cidr_block}"
+  cidr_block              = "${var.public_subnet2_cidr_block}"
   map_public_ip_on_launch = true
   tags {
     Name = "${var.vpc_name}-us-west-2b-public-subnet"
@@ -116,7 +116,7 @@ resource "aws_route_table" "us-west-2b-public-subnet" {
 resource "aws_subnet" "us-west-2a-private-subnet" {
   vpc_id                  = "${aws_vpc.mgmt-us-west-2.id}"
   availability_zone = "${element(var.availability_zones, 0)}"
-  cidr_block              = "${private_subnet1_cidr_block}"
+  cidr_block              = "${var.private_subnet1_cidr_block}"
   tags {
     Name = "${var.vpc_name}-us-west-2a-private-subnet"
   }
@@ -145,7 +145,7 @@ resource "aws_route_table" "us-west-2a-private-subnet" {
 resource "aws_subnet" "us-west-2b-private-subnet" {
   vpc_id                  = "${aws_vpc.mgmt-us-west-2.id}"
   availability_zone = "${element(var.availability_zones, 1)}"
-  cidr_block              = "${private_subnet2_cidr_block}"
+  cidr_block              = "${var.private_subnet2_cidr_block}"
   tags {
     Name = "${var.vpc_name}-us-west-2b-private-subnet"
   }
