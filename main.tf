@@ -329,6 +329,13 @@ resource "aws_security_group" "opswest-mgmt-public-subnet-sg" {
     protocol    = "tcp" 
     cidr_blocks = ["${var.feyedc_cidr_block}"] # to be replaced with FEYE DC CIDR Block
   }
+  # outbound internet access
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  } 
 }
 resource "aws_security_group_rule" "ssh_outbound_access_to_ipa" {
   type = "egress"
