@@ -30,7 +30,28 @@ resource "aws_instance" "cc-jumpbox" {
   tags {
      Name = "${var.environment}-cc-jumpbox"
   }
+  provisioner "file" {
+    source      = "${var.private_key}"
+    destination = "~/.ssh/freeipa-key"
+
+    connection {
+      user        = "ubuntu"
+      private_key = "${file(var.private_key)}"
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod 0400 ~/.ssh/freeipa-key",
+    ]
+
+    connection {
+      user        = "ubuntu"
+      private_key = "${file(var.private_key)}"
+    }
+  }
 }
+	
 resource "aws_eip" "cc-jumpbox" {
   instance = "${aws_instance.cc-jumpbox.id}"
   vpc = true
