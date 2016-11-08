@@ -303,8 +303,8 @@ resource "aws_security_group" "opswest-mgmt-public-subnet-sg" {
   ingress {
     from_port   = 22
     to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = "${var.feyedc_cidr_block}"
+    protocol    = "tcp" 
+    cidr_blocks = "96.46.157.30/32" # to be replaced with FEYE DC CIDR Block
   }
 }
 resource "aws_security_group_rule" "ssh_outbound_access_to_ipa" {
