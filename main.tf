@@ -304,7 +304,7 @@ resource "aws_security_group" "opswest-mgmt-public-subnet-sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = "${var.feye_dc_cidr_block}"
+    cidr_blocks = "${var.feyedc_cidr_block}"
   }
 }
 resource "aws_security_group_rule" "ssh_outbound_access_to_ipa" {
