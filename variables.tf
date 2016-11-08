@@ -34,3 +34,7 @@ variable "aws_region" {}
 variable "vpc_name" {}
 
 variable "feyedc_cidr_block" {}
+
+variable "private_key" {
+  description = "private key to connect to hosts from the jumpbox"
+}
