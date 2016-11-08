@@ -23,6 +23,7 @@ module "vpc" {
   key_name = "freeipa-key"
   aws_region = "us-west-2"
   vpc_name = "ipa-vpc"
+  feye_dc_cidr_block= "96.46.157.30" # to be replaced with FEYE DC CIDR Block
 }
 
 ```
