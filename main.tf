@@ -21,7 +21,7 @@ resource "aws_instance" "cc-jumpbox" {
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
-  vpc_security_group_ids = "${aws_security_group.opswest-mgmt-public-subnet-sg.id}"
+  vpc_security_group_ids = ["${aws_security_group.opswest-mgmt-public-subnet-sg.id}"]
   subnet_id = "${aws_subnet.us-west-2a-public-subnet.id}"
   associate_public_ip_address = true
   source_dest_check = false
@@ -304,7 +304,7 @@ resource "aws_security_group" "opswest-mgmt-public-subnet-sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp" 
-    cidr_blocks = "96.46.157.30/32" # to be replaced with FEYE DC CIDR Block
+    cidr_blocks = ["${var.feye_dc_cidr_block}"] # to be replaced with FEYE DC CIDR Block
   }
 }
 resource "aws_security_group_rule" "ssh_outbound_access_to_ipa" {
@@ -321,7 +321,7 @@ resource "aws_instance" "ipa-master" {
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
-  vpc_security_group_ids = "${aws_security_group.opswest-ipa-sg.id}"
+  vpc_security_group_ids = ["${aws_security_group.opswest-ipa-sg.id}"]
   subnet_id = "${aws_subnet.us-west-2a-private-subnet.id}"
   associate_public_ip_address = false
 
