@@ -33,4 +33,4 @@ variable "aws_region" {}
 
 variable "vpc_name" {}
 
-variable "feye_dc_cidr_block" {}
+variable "feyedc_cidr_block" {}
