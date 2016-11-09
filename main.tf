@@ -1,15 +1,3 @@
-###
-# ami
-###
-data "aws_ami" "ccjumpbox" {
-  most_recent = true
-	
-  filter {
-    name   = "name"
-    values = ["ccjumpbox-${var.ami_version}"]
-  }
-}
-
 # AWS access details
 
 provider "aws" {
@@ -44,14 +32,6 @@ resource "aws_instance" "ccjumpbox" {
   source_dest_check = false
   # Deploy ansible on the jump box	
   user_data = "${data.template_file.ccjumpbox.rendered}"
-
-  root_block_device {
-    volume_size = "${var.root_block_device}"
-  }
-
-  lifecycle {
-    ignore_changes = ["ami", "user_data"]
-  }	
 	
   tags {
      Name = "${var.environment}-ccjumpbox"
