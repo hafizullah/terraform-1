@@ -32,6 +32,26 @@ resource "aws_instance" "ccjumpbox" {
   tags {
      Name = "${var.environment}-ccjumpbox"
   }
+  provisioner "file" {
+    source      = "${var.private_key}"
+    destination = "~/.ssh/freeipa-key.pem"
+
+    connection {
+      user        = "ubuntu"
+      private_key = "${file(var.private_key)}"
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod 0400 ~/.ssh/freeipa-key.pem",
+    ]
+
+    connection {
+      user        = "ubuntu"
+      private_key = "${file(var.private_key)}"
+    }
+  }
 }
 	
 resource "aws_eip" "ccjumpbox" {
