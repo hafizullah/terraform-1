@@ -42,3 +42,8 @@ variable "private_key" {
 variable "user_data" {
     description = "user data for setting up the ec2 instance"
 }
+
+variable "ami_version" {
+  default     = "*"
+  description = "the ami version - e.g. v1.0.0"
+}
