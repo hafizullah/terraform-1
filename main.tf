@@ -57,7 +57,7 @@ resource "aws_instance" "ccjumpbox" {
   }	
 	
   tags {
-     Name = "${var.environment}-cc-jumpbox"
+     Name = "${var.environment}-ccjumpbox"
   }
   provisioner "file" {
     source      = "${var.private_key}"
@@ -81,8 +81,8 @@ resource "aws_instance" "ccjumpbox" {
   }
 }
 	
-resource "aws_eip" "cc-jumpbox" {
-  instance = "${aws_instance.cc-jumpbox.id}"
+resource "aws_eip" "ccjumpbox" {
+  instance = "${aws_instance.ccjumpbox.id}"
   vpc = true
 }
 # Create an internet gateway
