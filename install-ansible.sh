@@ -1,7 +1,6 @@
-#!/bin/bash -v
+#!/bin/bash
 sudo apt-get update && sudo apt-get install ansible -y
 sudo mkdir /etc/ansible/inventory
-home_dir= $HOME
-cd "$home_dir"
+cd $HOME
 mkdir security
-mkdir "$home_dir"/security/ipa
+mkdir $HOME/security/ipa
