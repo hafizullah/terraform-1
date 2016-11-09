@@ -47,3 +47,8 @@ variable "ami_version" {
   default     = "*"
   description = "the ami version - e.g. v1.0.0"
 }
+
+variable "root_block_device" {
+  default     = "30"
+  description = "size of root block device in GB"
+}
