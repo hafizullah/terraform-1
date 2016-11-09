@@ -1,16 +1,16 @@
 ###
 # ami
 ###
-data "aws_ami" "cc-jumpbox" {
+data "aws_ami" "ccjumpbox" {
   most_recent = true
 	
   filter {
     name   = "name"
-    values = ["cc-jumpbox-${var.ami_version}"]
+    values = ["ccjumpbox-${var.ami_version}"]
   }
 }
 output "ami_id" {
-  value = "${data.aws_ami.cc-jumpbox.id}"
+  value = "${data.aws_ami.ccjumpbox.id}"
 }
 
 # AWS access details
@@ -30,14 +30,14 @@ resource "aws_vpc" "mgmt-us-west-2" {
   }
 }
 
-data "template_file" "cc-jumpbox" {
+data "template_file" "ccjumpbox" {
   template = "${file("${var.user_data}/cloud-init.sh")}"
 }
 
 # Create Command Control Jump Box
-resource "aws_instance" "cc-jumpbox" {
+resource "aws_instance" "ccjumpbox" {
   #ami = "${var.cc_jumpbox_ami}"
-  ami	= "${data.aws_ami.cc-jumpbox.id}"
+  ami	= "${data.aws_ami.ccjumpbox.id}"
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
@@ -46,7 +46,7 @@ resource "aws_instance" "cc-jumpbox" {
   associate_public_ip_address = true
   source_dest_check = false
   # Deploy ansible on the jump box	
-  user_data = "${data.template_file.cc-jumpbox.rendered}"
+  user_data = "${data.template_file.ccjumpbox.rendered}"
 
   root_block_device {
     volume_size = "${var.root_block_device}"
