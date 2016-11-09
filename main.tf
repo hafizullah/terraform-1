@@ -18,7 +18,6 @@ resource "aws_vpc" "mgmt-us-west-2" {
 # Create Command Control Jump Box
 resource "aws_instance" "ccjumpbox" {
   ami = "${var.ccjumpbox_ami}"
-  #ami	= "${data.aws_ami.ccjumpbox.id}"
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
@@ -27,7 +26,7 @@ resource "aws_instance" "ccjumpbox" {
   associate_public_ip_address = true
   source_dest_check = false
   # Deploy ansible on the jump box	
-  user_data = "${file("userdata.sh")}"
+  user_data = "${file("install-ansible.sh")}"
 	
   tags {
      Name = "${var.environment}-ccjumpbox"
@@ -40,6 +39,17 @@ resource "aws_instance" "ccjumpbox" {
       user        = "ubuntu"
       private_key = "${file(var.private_key)}"
     }
+  }
+    # tf_file contains the variable outputs from the module
+    provisioner "file" {
+    source      = "tf_file"
+    destination = "~/security/ipa"
+
+    connection {
+      user        = "ubuntu"
+      private_key = "${file(var.private_key)}"
+    }
+    
   }
 
   provisioner "remote-exec" {
