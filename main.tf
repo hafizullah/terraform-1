@@ -2,8 +2,12 @@
 # ami
 ###
 data "aws_ami" "cc-jumpbox" {
-  name = "cc-jumpbox"
   most_recent = true
+	
+  filter {
+    name   = "name"
+    values = ["cc-jumpbox"]
+  }
 }
 
 # AWS access details
