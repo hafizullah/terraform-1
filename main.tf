@@ -9,6 +9,9 @@ data "aws_ami" "cc-jumpbox" {
     values = ["cc-jumpbox-${var.ami_version}"]
   }
 }
+output "ami_id" {
+  value = "${data.aws_ami.cc-jumpbox.id}"
+}
 
 # AWS access details
 
