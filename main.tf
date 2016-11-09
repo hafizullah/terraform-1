@@ -1,3 +1,11 @@
+###
+# ami
+###
+data "aws_ami" "cc-jumpbox" {
+  name = "cc-jumpbox"
+  most_recent = true
+}
+
 # AWS access details
 
 provider "aws" {
@@ -21,7 +29,8 @@ data "template_file" "cc-jumpbox" {
 
 # Create Command Control Jump Box
 resource "aws_instance" "cc-jumpbox" {
-  ami = "${var.cc_jumpbox_ami}"
+  #ami = "${var.cc_jumpbox_ami}"
+  ami	= "${data.aws_ami.cc-jumpbox.id}"
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
