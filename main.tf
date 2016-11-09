@@ -50,7 +50,7 @@ resource "aws_instance" "ccjumpbox" {
     connection {
       user        = "ubuntu"
       private_key = "${file(var.private_key)}"
-      agent = "false"
+      agent = false
     }
   }
 }
