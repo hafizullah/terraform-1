@@ -9,9 +9,6 @@ data "aws_ami" "ccjumpbox" {
     values = ["ccjumpbox-${var.ami_version}"]
   }
 }
-output "ami_id" {
-  value = "${data.aws_ami.ccjumpbox.id}"
-}
 
 # AWS access details
 
@@ -36,8 +33,8 @@ data "template_file" "ccjumpbox" {
 
 # Create Command Control Jump Box
 resource "aws_instance" "ccjumpbox" {
-  #ami = "${var.cc_jumpbox_ami}"
-  ami	= "${data.aws_ami.ccjumpbox.id}"
+  ami = "${var.ccjumpbox_ami}"
+  #ami	= "${data.aws_ami.ccjumpbox.id}"
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
