@@ -15,10 +15,6 @@ resource "aws_vpc" "mgmt-us-west-2" {
   }
 }
 
-data "template_file" "ccjumpbox" {
-  template = "${file("${var.user_data}/cloud-init.sh")}"
-}
-
 # Create Command Control Jump Box
 resource "aws_instance" "ccjumpbox" {
   ami = "${var.ccjumpbox_ami}"
@@ -31,7 +27,7 @@ resource "aws_instance" "ccjumpbox" {
   associate_public_ip_address = true
   source_dest_check = false
   # Deploy ansible on the jump box	
-  user_data = "${data.template_file.ccjumpbox.rendered}"
+  user_data = "${file{"cloud-init.sh")}"
 	
   tags {
      Name = "${var.environment}-ccjumpbox"
