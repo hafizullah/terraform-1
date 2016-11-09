@@ -38,17 +38,3 @@ variable "feyedc_cidr_block" {}
 variable "private_key" {
   description = "private key to connect to hosts from the jumpbox"
 }
-
-variable "user_data" {
-    description = "user data for setting up the ec2 instance"
-}
-
-variable "ami_version" {
-  default     = "*"
-  description = "the ami version - e.g. v1.0.0"
-}
-
-variable "root_block_device" {
-  default     = "30"
-  description = "size of root block device in GB"
-}
