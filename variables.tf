@@ -38,3 +38,7 @@ variable "feyedc_cidr_block" {}
 variable "private_key" {
   description = "private key to connect to hosts from the jumpbox"
 }
+
+variable "user_data" {
+    description = "user data for setting up the ec2 instance"
+}
