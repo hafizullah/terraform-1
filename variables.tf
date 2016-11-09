@@ -21,7 +21,7 @@ variable "availability_zones" {
   default = ["us-west-2a", "us-west-2b"]
   }
 
-variable "cc_jumpbox_ami" {}
+variable "ccjumpbox_ami" {}
 
 variable "ipa_server_ami" {}
 
