@@ -6,7 +6,7 @@ data "aws_ami" "cc-jumpbox" {
 	
   filter {
     name   = "name"
-    values = ["cc-jumpbox"]
+    values = ["cc-jumpbox-${var.ami_version}"]
   }
 }
 
