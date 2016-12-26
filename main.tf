@@ -419,16 +419,16 @@ resource "aws_elb" "ipa-elb" {
   security_groups = ["${aws_security_group.ipa-elb-sg.id}"]
    
   listener {
-	instance_port = 80
-        instance_protocol = "http"
-	lb_port = 80
-	lb_protocol = "http"
+	instance_port = 443
+        instance_protocol = "https"
+	lb_port = 443
+	lb_protocol = "https"
   }
   health_check {
         healthy_threshold = 2
 	unhealthy_threshold = 2
 	timeout = 3
-	target = "HTTP:80/"
+	target = "HTTPs:443/index.html"
 	interval = 30
   }
   instances = ["${aws_instance.ipa-openvpn-proxy-1.id}","${aws_instance.ipa-openvpn-proxy-2.id}"]
