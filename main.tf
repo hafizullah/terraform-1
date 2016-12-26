@@ -385,7 +385,7 @@ resource "aws_security_group_rule" "ping_outbound_access_to_public_subnets" {
 }
 
 # Create instance
-resource "aws_instance" "ipa-master" {
+resource "aws_instance" "ipa-master-1" {
   ami = "${var.ipa_server_ami}"
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
@@ -395,12 +395,12 @@ resource "aws_instance" "ipa-master" {
   associate_public_ip_address = false
 
   tags {
-     Name = "${var.project}-${var.environment}-master"
+     Name = "${var.project}-${var.environment}-master-${element(var.availability_zones, 0)}"
   }
 }
 
 # Create instance
-resource "aws_instance" "ipa-replica" {
+resource "aws_instance" "ipa-master-2" {
   ami = "${var.ipa_server_ami}"
   availability_zone = "${element(var.availability_zones, 1)}"
   instance_type = "${var.instance_type}"
@@ -409,7 +409,7 @@ resource "aws_instance" "ipa-replica" {
   subnet_id = "${aws_subnet.private-subnet2.id}"
   associate_public_ip_address = false
   tags {
-     Name = "${var.project}-${var.environment}-replica"
+     Name = "${var.project}-${var.environment}-master-${element(var.availability_zones, 1)}"
   }
 }
 # Create ELB
@@ -431,9 +431,38 @@ resource "aws_elb" "ipa-elb" {
 	target = "HTTP:80/"
 	interval = 30
   }
-  instances = ["${aws_instance.ipa-master.id}","${aws_instance.ipa-replica.id}"]
+  instances = ["${aws_instance.ipa-openvpn-proxy-1.id}","${aws_instance.ipa-openvpn-proxy-2.id}"]
     
   tags = {
      Name = "ipa-${var.environment}-elb"
+  }
+}
+
+
+# Create instance
+resource "aws_instance" "ipa-openvpn-proxy-1" {
+  ami = "${var.ipa_openvpn_proxy_ami}"
+  availability_zone = "${element(var.availability_zones, 0)}"
+  instance_type = "${var.instance_type}"
+  key_name = "${var.key_name}"
+  vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}"]
+  subnet_id = "${aws_subnet.private-subnet2.id}"
+  associate_public_ip_address = false
+  tags {
+     Name = "${var.project}-${var.environment}-openvpn-proxy-${element(var.availability_zones, 0)}"
+  }
+}
+
+# Create instance
+resource "aws_instance" "ipa-openvpn-proxy-2" {
+  ami = "${var.ipa_openvpn_proxy_ami}"
+  availability_zone = "${element(var.availability_zones, 1)}"
+  instance_type = "${var.instance_type}"
+  key_name = "${var.key_name}"
+  vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}"]
+  subnet_id = "${aws_subnet.private-subnet2.id}"
+  associate_public_ip_address = false
+  tags {
+     Name = "${var.project}-${var.environment}-openvpn-proxy-${element(var.availability_zones, 1)}"
   }
 }
