@@ -451,7 +451,7 @@ resource "aws_instance" "ipa-openvpn-proxy-1" {
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}"]
-  subnet_id = "${aws_subnet.private-subnet2.id}"
+  subnet_id = "${aws_subnet.private-subnet1.id}"
   associate_public_ip_address = false
   tags {
      Name = "${var.project}-${var.environment}-openvpn-proxy-${element(var.availability_zones, 0)}"
