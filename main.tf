@@ -442,7 +442,6 @@ resource "aws_lb_cookie_stickiness_policy" "ipa-elb-cookie" {
   name = "ipa-elb-policy"
   load_balancer = "${aws_elb.ipa-elb.id}"
   lb_port = 443
-  cookie_expiration_period = 0
 }
 
 # Create instance
