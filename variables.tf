@@ -51,3 +51,5 @@ variable "root_block_device" {
   default     = "30"
   description = "size of root block device in GB"
 }
+
+variable "ssl_certificate" {}
