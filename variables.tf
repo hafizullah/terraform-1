@@ -25,6 +25,8 @@ variable "ccjumpbox_ami" {}
 
 variable "ipa_server_ami" {}
 
+variable "ipa_openvpn_proxy_ami" {}
+
 variable "instance_type" {}
 
 variable "key_name" {}
@@ -36,5 +38,16 @@ variable "vpc_name" {}
 variable "feyedc_cidr_block" {}
 
 variable "private_key" {
+  default = "~/.ssh/freeipa-key.pem"
   description = "private key to connect to hosts from the jumpbox"
+}
+
+variable "count" {
+  default     = "1"
+  description = "the number of instances"
+}
+
+variable "root_block_device" {
+  default     = "30"
+  description = "size of root block device in GB"
 }
