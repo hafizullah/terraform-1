@@ -431,19 +431,19 @@ resource "aws_elb" "ipa-elb" {
 	target = "HTTPs:443/index.html"
 	interval = 30
   }
-  resource "aws_lb_cookie_stickiness_policy" "ipa-elb-cookie" {
-      name = "ipa-elb-policy"
-      load_balancer = "${aws_elb.ipa-elb.id}"
-      lb_port = 443
-      cookie_expiration_period = 0
-  }
+
   instances = ["${aws_instance.ipa-openvpn-proxy-1.id}","${aws_instance.ipa-openvpn-proxy-2.id}"]
     
   tags = {
      Name = "ipa-${var.environment}-elb"
   }
 }
-
+resource "aws_lb_cookie_stickiness_policy" "ipa-elb-cookie" {
+  name = "ipa-elb-policy"
+  load_balancer = "${aws_elb.ipa-elb.id}"
+  lb_port = 443
+  cookie_expiration_period = 0
+}
 
 # Create instance
 resource "aws_instance" "ipa-openvpn-proxy-1" {
