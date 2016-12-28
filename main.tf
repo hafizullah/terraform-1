@@ -33,6 +33,7 @@ resource "aws_security_group" "ipa-mgmt-public-subnet-sg" {
     protocol    = "-1" 
     cidr_blocks = ["${var.remote_vpc_cidr_block}"]
   }
+  
   # outbound internet access
   egress {
     from_port   = 0
