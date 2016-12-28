@@ -27,6 +27,12 @@ resource "aws_security_group" "ipa-mgmt-public-subnet-sg" {
     protocol    = "tcp" 
     cidr_blocks = ["${var.feyedc_cidr_block}"] # to be replaced with FEYE DC CIDR Block
   }
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1" 
+    cidr_blocks = ["${var.remote_vpc_cidr_block}"]
+  }
   # outbound internet access
   egress {
     from_port   = 0
@@ -35,6 +41,7 @@ resource "aws_security_group" "ipa-mgmt-public-subnet-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   } 
 }
+
 resource "aws_security_group_rule" "ssh_outbound_access_to_ipa" {
   type = "egress"
   from_port   = 22
@@ -59,7 +66,7 @@ resource "aws_instance" "ccjumpbox" {
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
-  vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}"]
+  vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-elb-sg.id}"]
   subnet_id = "${aws_subnet.public-subnet1.id}"
   associate_public_ip_address = true
   source_dest_check = false
@@ -451,7 +458,7 @@ resource "aws_instance" "ipa-openvpn-proxy-1" {
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
-  vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}"]
+  vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-elb-sg.id}"]
   subnet_id = "${aws_subnet.private-subnet1.id}"
   associate_public_ip_address = false
   tags {
@@ -465,7 +472,7 @@ resource "aws_instance" "ipa-openvpn-proxy-2" {
   availability_zone = "${element(var.availability_zones, 1)}"
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
-  vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}"]
+  vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-elb-sg.id}"]
   subnet_id = "${aws_subnet.private-subnet2.id}"
   associate_public_ip_address = false
   tags {
