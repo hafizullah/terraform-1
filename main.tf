@@ -159,6 +159,11 @@ resource "aws_route_table" "public-subnet1" {
     gateway_id = "${aws_internet_gateway.ipa-vpc-igw.id}"
   }
 
+  route {
+    cidr_block = "${var.remote_vpc_cidr_block}"
+    network_interface_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
+  }
+	
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 0)}-public-subnet"
   }
@@ -175,7 +180,7 @@ resource "aws_eip" "nat-gw2" {
   vpc = true
 }
 
-# Public Subnet in AZ2
+# Public Subnet2 in AZ2
 resource "aws_subnet" "public-subnet2" {
   vpc_id                  = "${aws_vpc.ipa-mgmt-vpc.id}"
   availability_zone = "${element(var.availability_zones, 1)}"
@@ -194,6 +199,10 @@ resource "aws_route_table" "public-subnet2" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = "${aws_internet_gateway.ipa-vpc-igw.id}"
+  }
+  route {
+    cidr_block = "${var.remote_vpc_cidr_block}"
+    network_interface_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
   }
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 1)}-public-subnet"
@@ -222,6 +231,10 @@ resource "aws_route_table" "private-subnet1" {
     gateway_id = "${aws_nat_gateway.nat-gw.id}"
   }
 
+  route {
+    cidr_block = "${var.remote_vpc_cidr_block}"
+    network_interface_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
+  }
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 0)}-private-subnet"
   }
@@ -246,6 +259,10 @@ resource "aws_route_table" "private-subnet2" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = "${aws_nat_gateway.nat-gw2.id}"
+  }
+  route {
+    cidr_block = "${var.remote_vpc_cidr_block}"
+    network_interface_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
   }
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 1)}-private-subnet"
