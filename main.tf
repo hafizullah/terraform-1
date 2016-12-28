@@ -144,9 +144,6 @@ resource "aws_subnet" "public-subnet1" {
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 0)}-public-subnet"
   }
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 resource "aws_route_table_association" "public-subnet1" {
@@ -187,9 +184,6 @@ resource "aws_subnet" "public-subnet2" {
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 1)}-public-subnet"
   }
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 resource "aws_route_table_association" "public-subnet2" {
   subnet_id      = "${aws_subnet.public-subnet2.id}"
@@ -212,9 +206,6 @@ resource "aws_subnet" "private-subnet1" {
   cidr_block              = "${var.private_subnet1_cidr_block}"
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 0)}-private-subnet"
-  }
-  lifecycle {
-    create_before_destroy = true
   }
 }
 
@@ -244,9 +235,6 @@ resource "aws_subnet" "private-subnet2" {
   cidr_block              = "${var.private_subnet2_cidr_block}"
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 1)}-private-subnet"
-  }
-  lifecycle {
-    create_before_destroy = true
   }
 }
 resource "aws_route_table_association" "private-subnet2" {
@@ -469,6 +457,7 @@ resource "aws_instance" "ipa-openvpn-proxy-1" {
   ami = "${var.ipa_openvpn_proxy_ami}"
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
+  source_dest_check = false
   key_name = "${var.key_name}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-elb-sg.id}"]
   subnet_id = "${aws_subnet.private-subnet1.id}"
@@ -483,6 +472,7 @@ resource "aws_instance" "ipa-openvpn-proxy-2" {
   ami = "${var.ipa_openvpn_proxy_ami}"
   availability_zone = "${element(var.availability_zones, 1)}"
   instance_type = "${var.instance_type}"
+  source_dest_check = false
   key_name = "${var.key_name}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-elb-sg.id}"]
   subnet_id = "${aws_subnet.private-subnet2.id}"
