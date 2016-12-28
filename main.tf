@@ -162,7 +162,7 @@ resource "aws_route_table" "public-subnet1" {
 
   route {
     cidr_block = "${var.remote_vpc_cidr_block}"
-    network_interface_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
+    instance_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
   }
 	
   tags {
@@ -203,7 +203,7 @@ resource "aws_route_table" "public-subnet2" {
   }
   route {
     cidr_block = "${var.remote_vpc_cidr_block}"
-    network_interface_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
+    instance_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
   }
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 1)}-public-subnet"
@@ -234,7 +234,7 @@ resource "aws_route_table" "private-subnet1" {
 
   route {
     cidr_block = "${var.remote_vpc_cidr_block}"
-    network_interface_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
+    instance_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
   }
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 0)}-private-subnet"
@@ -263,7 +263,7 @@ resource "aws_route_table" "private-subnet2" {
   }
   route {
     cidr_block = "${var.remote_vpc_cidr_block}"
-    network_interface_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
+    instance_id = "${aws_instance.ipa-openvpn-proxy-1.id}"
   }
   tags {
     Name = "${var.vpc_name}-${element(var.availability_zones, 1)}-private-subnet"
