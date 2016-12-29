@@ -30,7 +30,7 @@ resource "aws_security_group" "ipa-mgmt-public-subnet-sg" {
   ingress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1" 
+    protocol    = "icmp" 
     cidr_blocks = ["${var.remote_vpc_cidr_block}"]
   }
   
