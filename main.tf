@@ -479,8 +479,8 @@ resource "aws_instance" "ipa-openvpn-proxy-1" {
   associate_public_ip_address = true
   key_name = "${var.key_name}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-elb-sg.id}"]
-  subnet_id = "${aws_subnet.private-subnet1.id}"
-  associate_public_ip_address = false
+  subnet_id = "${aws_subnet.public-subnet1.id}"
+
   tags {
      Name = "${var.project}-${var.environment}-openvpn-proxy-${element(var.availability_zones, 0)}"
   }
@@ -495,8 +495,7 @@ resource "aws_instance" "ipa-openvpn-proxy-2" {
   associate_public_ip_address = true
   key_name = "${var.key_name}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-elb-sg.id}"]
-  subnet_id = "${aws_subnet.private-subnet2.id}"
-  associate_public_ip_address = false
+  subnet_id = "${aws_subnet.public-subnet2.id}"
   tags {
      Name = "${var.project}-${var.environment}-openvpn-proxy-${element(var.availability_zones, 1)}"
   }
