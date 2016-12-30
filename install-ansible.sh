@@ -8,3 +8,4 @@ sudo apt-get install yum
 sudo -u ubuntu mkdir /home/ubuntu/security/inventory
 sudo apt-get install python-pip -y
 sudo apt-get install python-boto -y
+sudo apt-get install git -y
