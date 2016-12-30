@@ -27,6 +27,7 @@ resource "aws_security_group" "ipa-mgmt-public-subnet-sg" {
     protocol    = "tcp" 
     cidr_blocks = ["${var.feyedc_cidr_block}"] # to be replaced with FEYE DC CIDR Block
   }
+	
   ingress {
     from_port   = -1
     to_port     = -1
@@ -50,6 +51,25 @@ resource "aws_security_group_rule" "ssh_outbound_access_to_ipa" {
   protocol    = "tcp"
   security_group_id = "${aws_security_group.ipa-mgmt-public-subnet-sg.id}"
   source_security_group_id = "${aws_security_group.ipa-server-sg.id}"
+}
+
+
+resource "aws_security_group_rule" "allow_icmp_from_mgmt_public_subnet_hosts" {
+  type = "ingress"
+  from_port   = -1
+  to_port     = -1
+  protocol    = "icmp"
+  security_group_id = "${aws_security_group.ipa-mgmt-public-subnet-sg.id}"
+  source_security_group_id = "${aws_security_group.ipa-mgmt-public-subnet-sg.id}"
+}
+
+resource "aws_security_group_rule" "allow_ssh_from_mgmt_public_subnet_hosts" {
+  type = "ingress"
+  from_port   = 22
+  to_port     = 22
+  protocol    = "tcp"
+  security_group_id = "${aws_security_group.ipa-mgmt-public-subnet-sg.id}"
+  source_security_group_id = "${aws_security_group.ipa-mgmt-public-subnet-sg.id}"
 }
 
 resource "aws_security_group_rule" "https_outbound" {
