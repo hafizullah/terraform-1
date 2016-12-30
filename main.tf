@@ -486,6 +486,11 @@ resource "aws_instance" "ipa-openvpn-proxy-1" {
   }
 }
 
+resource "aws_eip" "openvpn-proxy-1-ip" {
+  instance = "${aws_instance.ipa-openvpn-proxy-1.id}"
+  vpc = true  
+}
+
 # Create instance
 resource "aws_instance" "ipa-openvpn-proxy-2" {
   ami = "${var.ipa_openvpn_proxy_ami}"
@@ -499,4 +504,9 @@ resource "aws_instance" "ipa-openvpn-proxy-2" {
   tags {
      Name = "${var.project}-${var.environment}-openvpn-proxy-${element(var.availability_zones, 1)}"
   }
+}
+
+resource "aws_eip" "openvpn-proxy-2-ip" {
+  instance = "${aws_instance.ipa-openvpn-proxy-2.id}"
+  vpc = true  
 }
