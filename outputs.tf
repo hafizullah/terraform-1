@@ -30,10 +30,10 @@ output "ipa_master_2_private_ip" {
   value = ["${aws_instance.ipa-master-2.private_ip}"]
 }
 
-output "ipa_openvpn_proxy_1_public_ip" {
-  value = ["${aws_instance.ipa-openvpn-proxy-1.public_ip}"]
+output "ipa_openvpn_proxy_1_private_ip" {
+  value = ["${aws_instance.ipa-openvpn-proxy-1.private_ip}"]
 }
 
-output "ipa_openvpn_proxy_2_public_ip" {
-  value = ["${aws_instance.ipa-openvpn-proxy-2.public_ip}"]
+output "ipa_openvpn_proxy_2_private_ip" {
+  value = ["${aws_instance.ipa-openvpn-proxy-2.private_ip}"]
 }
