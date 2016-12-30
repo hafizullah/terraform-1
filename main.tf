@@ -28,8 +28,8 @@ resource "aws_security_group" "ipa-mgmt-public-subnet-sg" {
     cidr_blocks = ["${var.feyedc_cidr_block}"] # to be replaced with FEYE DC CIDR Block
   }
   ingress {
-    from_port   = 0
-    to_port     = 0
+    from_port   = -1
+    to_port     = -1
     protocol    = "icmp" 
     cidr_blocks = ["${var.remote_vpc_cidr_block}"]
   }
