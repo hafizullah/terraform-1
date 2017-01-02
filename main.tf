@@ -120,7 +120,7 @@ resource "aws_eip" "ccjumpbox-ip" {
   
   provisioner "file" {
     source      = "${var.private_key}"
-    destination = "~/.ssh/${var.key_name}"
+    destination = "~/.ssh/${var.key_name}.pem"
   }
     # tf_file contains the variable outputs from the module
   provisioner "file" {
@@ -136,7 +136,7 @@ resource "aws_eip" "ccjumpbox-ip" {
   
   provisioner "remote-exec" {
     inline = [
-      "chmod 0400 ~/.ssh/${var.key_name}",
+      "chmod 0400 ~/.ssh/${var.key_name}.pem",
     ]
   }
 }
