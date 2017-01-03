@@ -391,6 +391,16 @@ resource "aws_security_group_rule" "Allow_UDP_access_from_self_sg" {
   security_group_id = "${aws_security_group.ipa-server-sg.id}"
   source_security_group_id = "${aws_security_group.ipa-server-sg.id}"
 }
+
+resource "aws_security_group_rule" "allow_icmp_from_mgmt_public_subnet_hosts_to_IPA_Servers" {
+  type = "ingress"
+  from_port   = -1
+  to_port     = -1
+  protocol    = "icmp"
+  security_group_id = "${aws_security_group.ipa-server-sg.id}"
+  source_security_group_id = "${aws_security_group.ipa-mgmt-public-subnet-sg.id}"
+}
+
 # Create security group for elb
 resource "aws_security_group" "ipa-elb-sg" {
   name        = "ipa-${var.environment}-elb-sg"
@@ -428,6 +438,7 @@ resource "aws_security_group_rule" "ping_outbound_access_to_public_subnets" {
   security_group_id = "${aws_security_group.ipa-elb-sg.id}"
   source_security_group_id = "${aws_security_group.ipa-mgmt-public-subnet-sg.id}"
 }
+
 
 # Create instance
 resource "aws_instance" "ipa-master-1" {
