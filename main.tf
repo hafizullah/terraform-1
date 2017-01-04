@@ -289,7 +289,7 @@ resource "aws_route_table" "private-subnet2" {
     Name = "${var.vpc_name}-${element(var.availability_zones, 1)}-private-subnet"
   }
 }
-# Create security group for freeipa
+# Create security group for freeipa server
 resource "aws_security_group" "ipa-server-sg" {
   name        = "ipa-${var.environment}-ipasrv-sg"
   description = "Security group for FreeIPA"
@@ -392,13 +392,14 @@ resource "aws_security_group_rule" "Allow_UDP_access_from_self_sg" {
   source_security_group_id = "${aws_security_group.ipa-server-sg.id}"
 }
 
-resource "aws_security_group_rule" "allow_icmp_from_mgmt_public_subnet_hosts_to_IPA_Servers" {
+
+resource "aws_security_group_rule" "allow_icmp_from_ipa_servers" {
   type = "ingress"
   from_port   = -1
   to_port     = -1
   protocol    = "icmp"
   security_group_id = "${aws_security_group.ipa-server-sg.id}"
-  source_security_group_id = "${aws_security_group.ipa-mgmt-public-subnet-sg.id}"
+  source_security_group_id = "${aws_security_group.ipa-server-sg.id}"
 }
 
 # Create security group for elb
