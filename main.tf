@@ -86,7 +86,7 @@ resource "aws_instance" "ccjumpbox" {
   ami = "${var.ccjumpbox_ami}"
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
-  key_name = "${var.key_name_master1}"
+  key_name = "${var.key_name_uswest}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-server-sg.id}"]
   subnet_id = "${aws_subnet.public-subnet1.id}"
   associate_public_ip_address = true
@@ -120,7 +120,7 @@ resource "aws_eip" "ccjumpbox-ip" {
   
   provisioner "file" {
     source      = "${var.private_key}"
-    destination = "~/.ssh/${var.key_name_master1}.pem"
+    destination = "~/.ssh/${var.key_name_uswest}.pem"
   }
     # tf_file contains the variable outputs from the module
   provisioner "file" {
@@ -136,7 +136,7 @@ resource "aws_eip" "ccjumpbox-ip" {
   
   provisioner "remote-exec" {
     inline = [
-      "chmod 0400 ~/.ssh/${var.key_name_master1}.pem",
+      "chmod 0400 ~/.ssh/${var.key_name_uswest}.pem",
     ]
   }
 }
@@ -446,7 +446,7 @@ resource "aws_instance" "ipa-master-1" {
   ami = "${var.ipa_server_ami}"
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
-  key_name = "${var.key_name_master1}"
+  key_name = "${var.key_name_uswest}"
   vpc_security_group_ids = ["${aws_security_group.ipa-server-sg.id}"]
   subnet_id = "${aws_subnet.private-subnet1.id}"
   associate_public_ip_address = false
@@ -457,13 +457,13 @@ resource "aws_instance" "ipa-master-1" {
    # copy replica pem file to master1
   provisioner "file" {
     source      = "${var.private_key}"
-    destination = "~/.ssh/${var.key_name_replica}.pem"
+    destination = "~/.ssh/${var.key_name_useast}.pem"
   }
 
     # change the permission on replica pem file
   provisioner "remote-exec" {
     inline = [
-      "chmod 0400 ~/.ssh/${var.key_name_replica}.pem",
+      "chmod 0400 ~/.ssh/${var.key_name_useast}.pem",
     ]
   }
 }
@@ -473,7 +473,7 @@ resource "aws_instance" "ipa-master-2" {
   ami = "${var.ipa_server_ami}"
   availability_zone = "${element(var.availability_zones, 1)}"
   instance_type = "${var.instance_type}"
-  key_name = "${var.key_name_master1}"
+  key_name = "${var.key_name_uswest}"
   vpc_security_group_ids = ["${aws_security_group.ipa-server-sg.id}"]
   subnet_id = "${aws_subnet.private-subnet2.id}"
   associate_public_ip_address = false
@@ -521,7 +521,7 @@ resource "aws_instance" "ipa-openvpn-proxy-1" {
   instance_type = "${var.instance_type}"
   source_dest_check = false
   associate_public_ip_address = true
-  key_name = "${var.key_name_master1}"
+  key_name = "${var.key_name_uswest}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-server-sg.id}"]
   subnet_id = "${aws_subnet.public-subnet1.id}"
 
@@ -542,7 +542,7 @@ resource "aws_instance" "ipa-openvpn-proxy-2" {
   instance_type = "${var.instance_type}"
   source_dest_check = false
   associate_public_ip_address = true
-  key_name = "${var.key_name_master1}"
+  key_name = "${var.key_name_uswest}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-server-sg.id}"]
   subnet_id = "${aws_subnet.public-subnet2.id}"
   tags {
