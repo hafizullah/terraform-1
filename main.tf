@@ -445,7 +445,7 @@ resource "aws_instance" "ipa-master-1" {
   ami = "${var.ipa_server_ami}"
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
-  key_name = "${var.key_name}"
+  key_name = "${var.key_name_master1}"
   vpc_security_group_ids = ["${aws_security_group.ipa-server-sg.id}"]
   subnet_id = "${aws_subnet.private-subnet1.id}"
   associate_public_ip_address = false
@@ -460,7 +460,7 @@ resource "aws_instance" "ipa-master-2" {
   ami = "${var.ipa_server_ami}"
   availability_zone = "${element(var.availability_zones, 1)}"
   instance_type = "${var.instance_type}"
-  key_name = "${var.key_name}"
+  key_name = "${var.key_name_master1}"
   vpc_security_group_ids = ["${aws_security_group.ipa-server-sg.id}"]
   subnet_id = "${aws_subnet.private-subnet2.id}"
   associate_public_ip_address = false
@@ -508,7 +508,7 @@ resource "aws_instance" "ipa-openvpn-proxy-1" {
   instance_type = "${var.instance_type}"
   source_dest_check = false
   associate_public_ip_address = true
-  key_name = "${var.key_name}"
+  key_name = "${var.key_name_master1}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-server-sg.id}"]
   subnet_id = "${aws_subnet.public-subnet1.id}"
 
@@ -529,7 +529,7 @@ resource "aws_instance" "ipa-openvpn-proxy-2" {
   instance_type = "${var.instance_type}"
   source_dest_check = false
   associate_public_ip_address = true
-  key_name = "${var.key_name}"
+  key_name = "${var.key_name_master1}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-server-sg.id}"]
   subnet_id = "${aws_subnet.public-subnet2.id}"
   tags {
