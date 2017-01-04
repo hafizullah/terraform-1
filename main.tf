@@ -86,7 +86,7 @@ resource "aws_instance" "ccjumpbox" {
   ami = "${var.ccjumpbox_ami}"
   availability_zone = "${element(var.availability_zones, 0)}"
   instance_type = "${var.instance_type}"
-  key_name = "${var.key_name}"
+  key_name = "${var.key_name_master1}"
   vpc_security_group_ids = ["${aws_security_group.ipa-mgmt-public-subnet-sg.id}","${aws_security_group.ipa-server-sg.id}"]
   subnet_id = "${aws_subnet.public-subnet1.id}"
   associate_public_ip_address = true
@@ -120,7 +120,7 @@ resource "aws_eip" "ccjumpbox-ip" {
   
   provisioner "file" {
     source      = "${var.private_key}"
-    destination = "~/.ssh/${var.key_name}.pem"
+    destination = "~/.ssh/${var.key_name_master1}.pem"
   }
     # tf_file contains the variable outputs from the module
   provisioner "file" {
@@ -136,7 +136,7 @@ resource "aws_eip" "ccjumpbox-ip" {
   
   provisioner "remote-exec" {
     inline = [
-      "chmod 0400 ~/.ssh/${var.key_name}.pem",
+      "chmod 0400 ~/.ssh/${var.key_name_master1}.pem",
     ]
   }
 }
