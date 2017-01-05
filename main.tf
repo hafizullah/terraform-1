@@ -456,7 +456,7 @@ resource "aws_instance" "ipa-master-1" {
   }
   connection {
     host = "${aws_instance.ipa-master-1.private_ip}"
-    user = "ubuntu"
+    user = "centos"
     timeout = "30s"
     private_key = "${file(var.private_key)}"
     agent = false
