@@ -454,6 +454,12 @@ resource "aws_instance" "ipa-master-1" {
   tags {
      Name = "${var.project}-${var.environment}-master-${element(var.availability_zones, 0)}"
   }
+  connection {
+    user = "ubuntu"
+    timeout = "30s"
+    private_key = "${file(var.private_key)}"
+    agent = false
+  }
    # copy replica pem file to master1
   provisioner "file" {
     source      = "${var.private_key}"
