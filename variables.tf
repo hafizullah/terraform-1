@@ -29,9 +29,7 @@ variable "ipa_openvpn_proxy_ami" {}
 
 variable "instance_type" {}
 
-variable "key_name_uswest" {}
-
-variable "key_name_useast" {}
+variable "key_name" {}
 
 variable "aws_region" {}
 
