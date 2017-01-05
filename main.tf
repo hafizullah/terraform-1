@@ -124,17 +124,20 @@ resource "aws_eip" "ccjumpbox-ip" {
   }
     # tf_file contains the variable outputs from the module
   provisioner "file" {
+    command = "sleep 15"
     source      = "./tf_file"
     destination = "~/security/ipa/tf_file"
   }
   
     # copying vanila freeipa hosts inventory file to jump server
   provisioner "file" {
+    command = "sleep 15"
     source      = "./freeipa"
     destination = "~/security/inventory/freeipa"
   }
   
   provisioner "remote-exec" {
+    command = "sleep 15"
     inline = [
       "chmod 0400 ~/.ssh/${var.key_name_uswest}.pem",
     ]
@@ -456,12 +459,14 @@ resource "aws_instance" "ipa-master-1" {
   }
    # copy replica pem file to master1
   provisioner "file" {
+    command = "sleep 15"
     source      = "${var.private_key}"
     destination = "~/.ssh/${var.key_name_useast}.pem"
   }
 
     # change the permission on replica pem file
   provisioner "remote-exec" {
+    command = "sleep 15"
     inline = [
       "chmod 0400 ~/.ssh/${var.key_name_useast}.pem",
     ]
