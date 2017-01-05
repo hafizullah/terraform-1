@@ -135,7 +135,6 @@ resource "aws_eip" "ccjumpbox-ip" {
   }
   
   provisioner "remote-exec" {
-    command = "sleep 15"
     inline = [
       "chmod 0400 ~/.ssh/${var.key_name_uswest}.pem",
     ]
@@ -463,7 +462,6 @@ resource "aws_instance" "ipa-master-1" {
 
     # change the permission on replica pem file
   provisioner "remote-exec" {
-    command = "sleep 15"
     inline = [
       "chmod 0400 ~/.ssh/${var.key_name_useast}.pem",
     ]
