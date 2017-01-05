@@ -454,25 +454,6 @@ resource "aws_instance" "ipa-master-1" {
   tags {
      Name = "${var.project}-${var.environment}-master-${element(var.availability_zones, 0)}"
   }
-  connection {
-    host = "${aws_instance.ipa-master-1.private_ip}"
-    user = "centos"
-    timeout = "30s"
-    private_key = "${file(var.private_key)}"
-    agent = false
-  }
-   # copy replica pem file to master1
-  provisioner "file" {
-    source      = "${var.private_key}"
-    destination = "~/.ssh/${var.key_name_useast}.pem"
-  }
-
-    # change the permission on replica pem file
-  provisioner "remote-exec" {
-    inline = [
-      "chmod 0400 ~/.ssh/${var.key_name_useast}.pem",
-    ]
-  }
 }
 
 # Create instance
