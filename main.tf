@@ -455,6 +455,7 @@ resource "aws_instance" "ipa-master-1" {
      Name = "${var.project}-${var.environment}-master-${element(var.availability_zones, 0)}"
   }
   connection {
+    host = "${aws_instance.ipa-master-1.private_ip}"
     user = "ubuntu"
     timeout = "30s"
     private_key = "${file(var.private_key)}"
