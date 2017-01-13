@@ -14,18 +14,26 @@ output "ipa_2b_subnet_id" {
   value = "${aws_subnet.us-west-2b-private-subnet.id}"
 }
 
-output "ipa_master_private_dns" {
-  value = "${aws_instance.ipa-master.private_dns}"
+output "ipa_master_1_private_dns" {
+  value = "${aws_instance.ipa-master-1.private_dns}"
 }
 
-output "ipa_master_private_ip" {
-  value = "${aws_instance.ipa-master.private_ip}"
+output "ipa_master_1_private_ip" {
+  value = "${aws_instance.ipa-master-1.private_ip}"
 }
 
-output "ipa_replica_private_dns" {
-  value = "${aws_instance.ipa-replica.private_dns}"
+output "ipa_master_2_private_dns" {
+  value = "${aws_instance.ipa-master-2.private_dns}"
 }
 
-output "ipa_replica_private_ip" {
-  value = "${aws_instance.ipa-replica.private_ip}"
+output "ipa_master_2_private_ip" {
+  value = "${aws_instance.ipa-master-2.private_ip}"
+}
+
+output "ipa_openvpn_proxy_1_private_ip" {
+  value = "${aws_instance.ipa-openvpn-proxy-1.private_ip}"
+}
+
+output "ipa_openvpn_proxy_2_private_ip" {
+  value = "${aws_instance.ipa-openvpn-proxy-2.private_ip}"
 }
