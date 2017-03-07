@@ -22,8 +22,7 @@ module "vpc" {
   ipa_server_ami = "ami-d2c924b2"
   ipa_openvpn_proxy_ami = "ami-01f05461"
   instance_type = "t2.micro"
-  key_name_uswest = "freeipa-key"
-  key_name_useast = "freeipa-key-useast"
+  key_name = "freeipa-key"
   aws_region = "us-west-2"
   vpc_name = "ipa-mgmt-vpc"
   feyedc_cidr_block = "96.46.157.30/32"   # to be replaced with FEYE DC CIDR Block
