@@ -351,6 +351,14 @@ resource "aws_security_group_rule" "Port_88_inbound_access_from_self_sg" {
   security_group_id = "${aws_security_group.ipa-server-sg.id}"
   source_security_group_id = "${aws_security_group.ipa-server-sg.id}"
 }
+resource "aws_security_group_rule" "udp_Port_88_inbound_access_from_self_sg" {
+  type = "ingress" 
+  from_port   = 88
+  to_port     = 88
+  protocol    = "udp"
+  security_group_id = "${aws_security_group.ipa-server-sg.id}"
+  source_security_group_id = "${aws_security_group.ipa-server-sg.id}"
+}
 resource "aws_security_group_rule" "LDAP_access_from_self_sg" {
   type = "ingress"
   from_port   = 389
@@ -364,6 +372,14 @@ resource "aws_security_group_rule" "Allow_HTTPS_access_from_self_sg" {
   from_port   = 443
   to_port     = 443
   protocol    = "tcp"
+  security_group_id = "${aws_security_group.ipa-server-sg.id}"
+  source_security_group_id = "${aws_security_group.ipa-server-sg.id}"
+}
+resource "aws_security_group_rule" "Allow_udp_port_464_from_self_sg" {
+  type = "ingress"
+  from_port   = 464
+  to_port     = 464
+  protocol    = "udp"
   security_group_id = "${aws_security_group.ipa-server-sg.id}"
   source_security_group_id = "${aws_security_group.ipa-server-sg.id}"
 }
