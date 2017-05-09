@@ -16,10 +16,7 @@ variable "public_subnet1_cidr_block" {}
 
 variable "public_subnet2_cidr_block" {}
 
-variable "availability_zones" {
-  type    = "list"
-  default = ["us-west-2a", "us-west-2b"]
-  }
+variable "availability_zones" {}
 
 variable "ccjumpbox_ami" {}
 
@@ -40,7 +37,6 @@ variable "feyedc_cidr_block" {}
 variable "remote_vpc_cidr_block" {}
 
 variable "private_key" {
-  default = "~/.ssh/freeipa-key.pem"
   description = "private key to connect to hosts from the jumpbox"
 }
 
