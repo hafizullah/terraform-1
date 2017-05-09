@@ -93,7 +93,7 @@ resource "aws_instance" "ccjumpbox" {
   source_dest_check = false
   # Deploy ansible on the jump box	
   user_data = "${file("install-ansible.sh")}"
-  count     = "${var.count}"
+  #count     = "${var.count}"
   lifecycle {
      ignore_changes = ["ami", "user_data"]
   }
@@ -113,7 +113,7 @@ resource "aws_eip" "ccjumpbox-ip" {
   connection {
      host = "${aws_eip.ccjumpbox-ip.public_ip}"
      user = "ubuntu"
-     timeout = "30s"
+     timeout = "90s"
      private_key = "${file(var.private_key)}"
      agent = false
   }
