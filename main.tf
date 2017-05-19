@@ -487,7 +487,7 @@ resource "aws_instance" "ipa-master-2" {
 }
 # Create ELB
 resource "aws_elb" "ipa-elb" {
-  name = "ipa-${var.environment}-elb"
+  name = "${var.project}-${var.environment}-elb"
   subnets = ["${aws_subnet.public-subnet1.id}","${aws_subnet.public-subnet2.id}"]
   security_groups = ["${aws_security_group.ipa-elb-sg.id}"]
    
@@ -509,11 +509,11 @@ resource "aws_elb" "ipa-elb" {
   instances = ["${aws_instance.ipa-openvpn-proxy-1.id}","${aws_instance.ipa-openvpn-proxy-2.id}"]
     
   tags = {
-     Name = "ipa-${var.environment}-elb"
+     Name = "${var.project}-${var.environment}-elb"
   }
 }
 resource "aws_lb_cookie_stickiness_policy" "ipa-elb-cookie" {
-  name = "ipa-elb-policy"
+  name = "${var.project}-elb-policy"
   load_balancer = "${aws_elb.ipa-elb.id}"
   lb_port = 443
 }
