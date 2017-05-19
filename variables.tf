@@ -16,7 +16,9 @@ variable "public_subnet1_cidr_block" {}
 
 variable "public_subnet2_cidr_block" {}
 
-variable "availability_zones" {}
+variable "availability_zones" {
+  type        = "list"
+}
 
 variable "ccjumpbox_ami" {}
 
